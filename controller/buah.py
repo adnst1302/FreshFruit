@@ -1,9 +1,16 @@
-import re
+from os import stat
 from flask import jsonify 
 from model.buah import *
+from helper.response import *
 
-def __init__(self):
-        self.c_name = "buah"
+class baseResponse:
+    def __init__(self, status, message):
+        self.status = status
+        self.message = message
+
+    def buildResponse(self):
+        dr = {'status':self.status, 'message':self.message}
+        return jsonify(dr)
 
 def c_dataBuahAll():
     dataBuah = m_getBuahAll()
@@ -15,13 +22,13 @@ def c_tambahBuah(request):
         nama = request.form['nama']
         harga = request.form['harga']
         stok = request.form['stok']
-
         if m_createBuah(nama, harga, stok) == True:
-            dr = {'status' : 'success'}
+            setBaseResponse(200, 'fruit create succesfully')     
         else:
-            dr = {'status' : 'fail'}
-
+            setBaseResponse(400, 'error connection to database')
     except:
-        dr = {'status' : 'fail'}
-    
-    return jsonify(dr)
+        setBaseResponse(400, 'error request format')
+    baseResponse.buildResponse()
+
+def setBaseResponse(status, message):
+    newBasicResponse = baseResponse(status, message)
