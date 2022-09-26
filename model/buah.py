@@ -34,3 +34,14 @@ def m_deleteBuah(kdBuah):
         return True
     except:
         return False
+
+def m_updateBuah(kdBuah, nama, harga, stok):
+    try:
+        cursor = db.cursor()
+        sql = "UPDATE tbl_buah SET nama_buah=%s, harga=%s, stok=%s WHERE kd_buah=%s"
+        val = (nama, harga, stok, kdBuah,)
+        cursor.execute(sql, val)
+        db.commit()
+        return True
+    except:
+        return False

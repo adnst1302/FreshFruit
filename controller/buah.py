@@ -1,4 +1,3 @@
-from os import stat
 from flask import jsonify 
 from model.buah import *
 from helper.response import *
@@ -31,5 +30,20 @@ def c_hapusBuah(request):
             br = buildResponse(200, 'error connection database', None)
     except:
         br = buildResponse(200, 'error request format', None)
-        
+
+    return jsonify(br)
+
+def c_updateBuah(request):
+    try:
+        kdBuah = request.form['kdBuah']
+        nama = request.form['nama']
+        harga = request.form['harga']
+        stok = request.form['stok']
+        if m_updateBuah(kdBuah, nama, harga, stok) == True:
+            br = buildResponse(200, 'fruit update succesfully', None)
+        else:
+            br = buildResponse(200, 'error connection database', None)
+    except:
+        br = buildResponse(200, 'error request format', None)
+
     return jsonify(br)
