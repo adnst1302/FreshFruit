@@ -31,4 +31,5 @@ def c_hapusBuah(request):
             br = buildResponse(200, 'error connection database', None)
     except:
         br = buildResponse(200, 'error request format', None)
+        
     return jsonify(br)

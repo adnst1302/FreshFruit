@@ -25,13 +25,12 @@ def m_createBuah(nama, harga, stok):
    
 
 def m_deleteBuah(kdBuah):
-    print(kdBuah)
     try:
         cursor = db.cursor()
-        sql = "DELETE FROM tbl_buah WHERE kd_buah='f3086d54-52ed-4677-b46d-9b190ba8da7e'"
-        # adr = (str(kdBuah) 
-        cursor.execute(sql)
-        cursor.commit()
+        sql = "DELETE FROM tbl_buah WHERE kd_buah=%s"
+        val = (kdBuah, )
+        cursor.execute(sql, val)
+        db.commit()
         return True
     except:
-         return False
+        return False
