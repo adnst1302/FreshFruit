@@ -3,19 +3,10 @@ from flask import jsonify
 from model.buah import *
 from helper.response import *
 
-class baseResponse:
-    def __init__(self, status, message):
-        self.status = status
-        self.message = message
-
-    def buildResponse(self):
-        dr = {'status':self.status, 'message':self.message}
-        return jsonify(dr)
-
 def c_dataBuahAll():
     dataBuah = m_getBuahAll()
-    dr = {'status' : 'success', 'data':dataBuah}
-    return jsonify(dr)
+    br = buildResponse(200, 'load fruit data successfully', dataBuah)
+    return jsonify(br)
 
 def c_tambahBuah(request):
     try:
@@ -23,12 +14,21 @@ def c_tambahBuah(request):
         harga = request.form['harga']
         stok = request.form['stok']
         if m_createBuah(nama, harga, stok) == True:
-            setBaseResponse(200, 'fruit create succesfully')     
+            br = buildResponse(200, 'fruit create succesfully', None)
         else:
-            setBaseResponse(400, 'error connection to database')
+            br = buildResponse(200, 'error connection database', None)
     except:
-        setBaseResponse(400, 'error request format')
-    baseResponse.buildResponse()
+        br = buildResponse(200, 'error request format', None)
 
-def setBaseResponse(status, message):
-    newBasicResponse = baseResponse(status, message)
+    return jsonify(br)
+
+def c_hapusBuah(request):
+    try:
+        kdBuah = request.form['kdBuah']
+        if m_deleteBuah(kdBuah) == True:
+            br = buildResponse(200, 'fruit delete succesfully', None)
+        else:
+            br = buildResponse(200, 'error connection database', None)
+    except:
+        br = buildResponse(200, 'error request format', None)
+    return jsonify(br)
