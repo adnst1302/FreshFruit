@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify 
 from controller.buah import *
+from controller.stockMasuk import *
 
 app = Flask(__name__)
 
@@ -26,7 +27,9 @@ def buahUpdate():
     return c_updateBuah(request)
 
 # ROUTE STOCK MASUK 
-
+@app.route('/stock-masuk/data/all')
+def stockMasukDataAll():
+    return c_stockMasukAll()
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=7001)
