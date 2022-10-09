@@ -9,3 +9,6 @@ def buildResponse(status, message, data):
     resultResponse['message'] = message
     resultResponse['data'] = data
     return resultResponse
+
+def setAggreate(data):
+    return 0
