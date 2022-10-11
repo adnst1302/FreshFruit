@@ -1,0 +1,31 @@
+name: cd
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  cd:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Deploy Using ssh
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: 22
+          script: |
+            cd /home/pythonApp
+            rm -R FreshFruit
+            git clone https://github.com/adnst1302/FreshFruit
+            chown -R www-data:www-data FreshFruit/
+            chmod -R 755 FreshFruit/
+            cd FreshFruit
+            # composer update
+            # php artisan migrate:refresh --seed
+            exit
